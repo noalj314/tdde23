@@ -62,6 +62,7 @@ def count(board, r_or_c, num, spelare):
         return antal
     else:
         return False
+
 def nearest_piece(board, xnarmsta, ynarmsta):
     narmast = None
     narmast_kord = False

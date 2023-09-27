@@ -20,3 +20,4 @@ def left_subtree(tree):
 
 def right_subtree(tree):
     return tree[2]
+
