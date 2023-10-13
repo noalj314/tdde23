@@ -7,32 +7,14 @@ os.chdir("/Users/noahljungberg/PycharmProjects/tdde23-2023-labbar-05-u1-b-02/lab
 
 
 def cvimg_to_list(image):
-    """Tar en bild och returnerar en lista av tupler med alla bilder för varje pixel i en bild"""
-    rad, kolumn, _ = img.shape  # Vi ger rad första värdet (dvs höjden) av img.shape och kolumn (dvs bredden) andra värdet tredje värdet ignoreras genom _
-    return [(tuple(image[y, x])) for y in range(rad) for x in range(kolumn)]  # skapa en lista med tupler för alla färger
-
-# print(cvimg_to_list("image.jpg"))
-
-def double_elements(int_list):
-    """Takes a list of ints and return their value times two"""
-    return [i * 2 for i in int_list]
-
-
-def all_pairs_ordered(number):
-    """Takes a number and makes ordered pairs"""
-    return [(i, j) for i in range(number + 1) for j in range(number + 1)]
-
-
-def disrtribute(anything, some_lists):
-    return [i + [anything] for i in some_lists]
-
-
-def rem_negative(list_of_int):
-    return [i for i in list_of_int if (i >= 0)]
-
-
-def int_first_letter(list_of_str):
-    return [ord(i[0]) for i in list_of_str]
+    """Tar en bild och returnerar en lista av tupler med alla pixlar för varje pixel i en bild"""
+    # Vi ger rad första värdet (dvs höjden) av img.shape och kolumn (dvs bredden) andra värdet tredje värdet ignoreras genom _
+    if len(image.shape) == 2:
+        rad, kolumn = image.shape
+        return [(image[y, x]) for y in range(rad) for x in range(kolumn)]
+    elif len(image.shape) == 3:
+        rad, kolumn, _ = image.shape
+        return [(tuple(image[y, x])) for y in range(rad) for x in range(kolumn)]  # skapa en lista med tupler för alla färger
 
 
 def unsharp_mask(N):
@@ -50,5 +32,3 @@ def unsharp_mask(N):
             for y in range(-(N // 2), N // 2 + 1)
         ]
 
-
-print(unsharp_mask(1))
