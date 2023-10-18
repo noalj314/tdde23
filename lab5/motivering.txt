@@ -1,0 +1,5 @@
+Pixel Contraint: Undantagen här kontrollerar att indata är av rätt format och inom rätt intervall. Detta är viktigt för att ifall vi bearbetar felaktiga värden kommer vi få en funktion som arbetar med felaktiga värden och de resultat vi får kommer vara svårt att tolka
+ 
+Generator_from_image: Index error säkerställer att funktionen inte försöker nå värden som inte finns i bilden vilket kan ge en konstig bild
+
+Combine_images: Här använder jag Exception för att hantera felaktiga värden eller datatype. Ifall vi använder felaktiga inputs kommer vi får en felaktig kombinering a bilderna

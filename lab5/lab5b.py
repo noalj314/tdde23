@@ -12,11 +12,16 @@ os.chdir("/Users/noahljungberg/PycharmProjects/tdde23-2023-labbar-05-u1-b-02/lab
 def pixel_constraint(hlow, hhigh, slow, shigh, vlow, vhigh):
     """Takes upper and lower values for hsv then returns 1 or 0 depending on the function is_in_range_color """
     def is_in_range_color(hsv_pixel):
-        # Raise an exception om hsv_pixel inte är en tuple som är längd tre och int
-        #if not isinstance(hsv_pixel, tuple) or len(hsv_pixel) != 3 or not all(isinstance(x, int) for x in hsv_pixel):
-            #raise TypeError("Invalid pixel input in pixel_constraint")
+        # Raise an exception om hsv_pixel inte är en tuple som är längd tre
+        if not isinstance(hsv_pixel, tuple) or len(hsv_pixel) != 3:
+            raise TypeError("Invalid pixel input in pixel_constraint")
         hue, saturation, value = hsv_pixel
+        if not (isinstance(hue, numpy.uint8) and isinstance(saturation, numpy.uint8) and isinstance(value, numpy.uint8)):
+            raise TypeError("Invalid pixel input in pixel_constraint")
+        if not (0 <= hue <= 255 and 0 <= saturation <= 255 and 0 <= value <= 255 ):
+            raise ValueError("Invalid pixel input in pixel_constraint")
         return 1 if (hlow <= hue <= hhigh and slow <= saturation <= shigh and vlow <= value <= vhigh) else 0
+
 
     return is_in_range_color
 
@@ -24,11 +29,11 @@ def generator_from_image(image_list):
     """Returns the color value of a pixel for a given index in a image_list"""
     def pixel(index):
         # lägg till en check om indexet är för stort
-        #if index >= len(image_list):
-           # raise IndexError("Index out of range in generator_from_image.")
+        if index >= len(image_list):
+            raise IndexError("Index out of range in generator_from_image.")
         return image_list[index]
     return pixel
-
+"""
 ### lab 5b1
 hsv_plane = cv2.cvtColor(cv2.imread("plane.jpg"), cv2.COLOR_BGR2HSV)
 
@@ -55,7 +60,7 @@ new_list = [generator(i) for i in range(len(orig_list))]
 
 
 
-
+"""
 
 #lab5 b3
 
@@ -77,7 +82,12 @@ def pixel_checker(pixel_index):
 
 def combine_images(plane_hsv_list, condition, generator1, generator2):
     """Replaces the sky with black and then adds randomly generated stars to the night sky"""
-    bgr_list = [hsv_pixel_to_bgr_pixel(pixel_checker(pixel_index)) for pixel_index in range(len(plane_hsv_list))]
+    try:
+        # Använd list comprehension med en try-except block för att hantera exceptions per pixel
+        bgr_list = [hsv_pixel_to_bgr_pixel(pixel_checker(pixel_index)) for pixel_index in range(len(plane_hsv_list))]
+    except (TypeError, IndexError):
+        # fånga om exceptions som uppstår inuti list comprehension
+        raise Exception("An error occurred while combining images: check the input ")
     return bgr_list
 
 
@@ -116,7 +126,7 @@ def condition1(pixel):
 def combine_images2(mask):
     """Calls the mask_function for all index in the plane_bgr_list"""
     return [mask(index) for index in range(len(plane_bgr_list))]
-
+"""
 #Load all images
 flowers = cv2.imread("flowers.jpg")
 gradient = cv2.imread("gradient.jpg", cv2.IMREAD_GRAYSCALE)
@@ -145,6 +155,7 @@ resulted = combine_images2(mask)
 new_img2 = rgblist_to_cvimg(resulted, plane_img.shape[0], plane_img.shape[1])
 
 #Show the image
-cv2.imshow("kejdjeid",new_img2)
-cv2.waitKey(0)
+#cv2.#imshow("kejdjeid",new_img2)
+#cv2.waitKey(0)
 
+"""
